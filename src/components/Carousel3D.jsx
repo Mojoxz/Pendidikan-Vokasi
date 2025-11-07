@@ -62,13 +62,24 @@ const Carousel3D = ({ items }) => {
               transformStyle: 'preserve-3d'
             }}
           >
-            <div className="w-full h-full bg-gray-800 rounded-2xl p-8 shadow-2xl border border-gray-700">
-              <div className="flex flex-col items-center text-center h-full justify-center">
-                <div className="mb-4 p-4 bg-purple-900/30 rounded-full">
-                  {item.icon}
+            <div className="w-full h-full bg-gray-800 rounded-2xl overflow-hidden shadow-2xl border border-gray-700">
+              {/* Background Image with Overlay */}
+              <div className="relative w-full h-full">
+                <img 
+                  src={item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80'}
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-gray-900/60"></div>
+                
+                {/* Content */}
+                <div className="relative flex flex-col items-center text-center h-full justify-center p-8 z-10">
+                  <div className="mb-4 p-4 bg-purple-900/50 backdrop-blur-sm rounded-full border border-purple-500/30">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white drop-shadow-lg">{item.title}</h3>
+                  <p className="text-gray-200 leading-relaxed drop-shadow-md">{item.description}</p>
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-white">{item.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{item.description}</p>
               </div>
             </div>
           </div>
@@ -78,7 +89,7 @@ const Carousel3D = ({ items }) => {
       <button
         onClick={prevSlide}
         disabled={isAnimating}
-        className="absolute left-4 z-20 p-3 rounded-full bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 disabled:opacity-50 transition-all"
+        className="absolute left-4 z-20 p-3 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white hover:bg-gray-700 disabled:opacity-50 transition-all"
       >
         <ChevronLeft size={24} />
       </button>
@@ -86,7 +97,7 @@ const Carousel3D = ({ items }) => {
       <button
         onClick={nextSlide}
         disabled={isAnimating}
-        className="absolute right-4 z-20 p-3 rounded-full bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 disabled:opacity-50 transition-all"
+        className="absolute right-4 z-20 p-3 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white hover:bg-gray-700 disabled:opacity-50 transition-all"
       >
         <ChevronRight size={24} />
       </button>

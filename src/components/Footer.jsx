@@ -3,7 +3,7 @@ import { Sparkles, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 text-white mt-20 border-t border-gray-800">
+    <footer className="bg-gray-900/95 backdrop-blur-sm text-white mt-20 border-t border-gray-800 shadow-lg">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}

@@ -6,11 +6,12 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Interactive from './pages/Interactive';
 import Contact from './pages/Contact';
+import Adventure from './pages/Adventure';
 
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-gray-900">
         <Navbar />
         <main className="flex-grow">
           <Routes>
@@ -18,6 +19,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/interactive" element={<Interactive />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/adventure" element={<Adventure />} />
           </Routes>
         </main>
         <Footer />

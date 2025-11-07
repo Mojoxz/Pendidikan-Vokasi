@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Target, Zap, BookOpen, Sparkles, Play } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Carousel3D from '../components/Carousel3D';
 
 // Zigzag Feature Cards Component
@@ -94,6 +95,7 @@ const VideoCard = ({ videoId, thumbnail, title, description, onPlay }) => {
 
 // Main Home Component
 const Home = () => {
+  const navigate = useNavigate();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState('');
 
@@ -156,7 +158,18 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900">
+      <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+        {/* Background Image dengan Overlay */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80"
+            alt="Technology Background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-purple-900/80 to-gray-900/95"></div>
+        </div>
+        
+        {/* Decorative Pattern Overlay */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
@@ -183,10 +196,16 @@ const Home = () => {
           </p>
           
           <div className="flex flex-wrap gap-4 justify-center">
-            <button className="text-lg bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full transition-all">
+            <button 
+              onClick={() => navigate('/interactive')}
+              className="text-lg bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full transition-all transform hover:scale-105"
+            >
               Mulai Belajar Interaktif <ArrowRight className="inline ml-2" size={20} />
             </button>
-            <button className="text-lg bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 px-8 py-3 rounded-full transition-all">
+            <button 
+              onClick={() => navigate('/about')}
+              className="text-lg bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 px-8 py-3 rounded-full transition-all"
+            >
               Pelajari Lebih Lanjut
             </button>
           </div>
@@ -272,7 +291,10 @@ const Home = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-300">
             Coba kuis interaktif kami dan temukan jalur karier vokasi yang tepat untukmu!
           </p>
-          <button className="text-lg bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full transition-all">
+          <button 
+            onClick={() => navigate('/adventure')}
+            className="text-lg bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full transition-all transform hover:scale-105"
+          >
             Mulai Petualangan <ArrowRight className="inline ml-2" size={20} />
           </button>
         </div>
