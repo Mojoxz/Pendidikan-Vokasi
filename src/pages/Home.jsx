@@ -1,117 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, Target, Zap, BookOpen, Sparkles, ChevronLeft, ChevronRight, Play } from 'lucide-react';
-
-// 3D Carousel Component
-const Carousel3D = ({ items }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  const nextSlide = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => (prev + 1) % items.length);
-    setTimeout(() => setIsAnimating(false), 600);
-  };
-
-  const prevSlide = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
-    setTimeout(() => setIsAnimating(false), 600);
-  };
-
-  const getCardStyle = (index) => {
-    const diff = (index - currentIndex + items.length) % items.length;
-    const totalItems = items.length;
-    
-    if (diff === 0) {
-      return {
-        transform: 'translateX(0) translateZ(0) scale(1.1)',
-        opacity: 1,
-        zIndex: 10
-      };
-    } else if (diff === 1 || diff === -totalItems + 1) {
-      return {
-        transform: 'translateX(110%) translateZ(-100px) rotateY(-25deg) scale(0.85)',
-        opacity: 0.7,
-        zIndex: 5
-      };
-    } else if (diff === totalItems - 1 || diff === -1) {
-      return {
-        transform: 'translateX(-110%) translateZ(-100px) rotateY(25deg) scale(0.85)',
-        opacity: 0.7,
-        zIndex: 5
-      };
-    } else {
-      return {
-        transform: 'translateX(0) translateZ(-200px) scale(0.6)',
-        opacity: 0,
-        zIndex: 0
-      };
-    }
-  };
-
-  return (
-    <div className="relative w-full h-96 flex items-center justify-center" style={{ perspective: '1200px' }}>
-      <div className="relative w-full max-w-md h-80">
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className="absolute inset-0 transition-all duration-600 ease-out"
-            style={{
-              ...getCardStyle(index),
-              transformStyle: 'preserve-3d'
-            }}
-          >
-            <div className="w-full h-full bg-gray-800 rounded-2xl p-8 shadow-2xl border border-gray-700">
-              <div className="flex flex-col items-center text-center h-full justify-center">
-                <div className="mb-4 p-4 bg-purple-900/30 rounded-full">
-                  {item.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-3 text-white">{item.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{item.description}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <button
-        onClick={prevSlide}
-        disabled={isAnimating}
-        className="absolute left-4 z-20 p-3 rounded-full bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 disabled:opacity-50 transition-all"
-      >
-        <ChevronLeft size={24} />
-      </button>
-
-      <button
-        onClick={nextSlide}
-        disabled={isAnimating}
-        className="absolute right-4 z-20 p-3 rounded-full bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 disabled:opacity-50 transition-all"
-      >
-        <ChevronRight size={24} />
-      </button>
-
-      <div className="absolute bottom-0 flex gap-2 justify-center">
-        {items.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              if (!isAnimating) {
-                setIsAnimating(true);
-                setCurrentIndex(index);
-                setTimeout(() => setIsAnimating(false), 600);
-              }
-            }}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex ? 'bg-purple-500 w-8' : 'bg-gray-600'
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
+import React, { useState } from 'react';
+import { ArrowRight, Target, Zap, BookOpen, Sparkles, Play } from 'lucide-react';
+import Carousel3D from '../components/Carousel3D';
 
 // Zigzag Feature Cards Component
 const ZigzagFeatures = ({ features }) => {
@@ -162,9 +51,10 @@ const VideoModal = ({ isOpen, onClose, videoId }) => {
             width="100%"
             height="100%"
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-            title="Video Player"
+            title="YouTube video player"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           />
         </div>
@@ -173,9 +63,44 @@ const VideoModal = ({ isOpen, onClose, videoId }) => {
   );
 };
 
+// Video Card Component
+const VideoCard = ({ videoId, thumbnail, title, description, onPlay }) => {
+  return (
+    <div className="bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden shadow-xl">
+      <div className="aspect-video relative bg-gray-900 flex items-center justify-center cursor-pointer group"
+           onClick={() => onPlay(videoId)}>
+        <img 
+          src={thumbnail}
+          alt="Video Thumbnail"
+          className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity"
+        />
+        <div className="relative z-10 w-20 h-20 rounded-full bg-purple-600 flex items-center justify-center group-hover:bg-purple-700 group-hover:scale-110 transition-all">
+          <Play className="text-white ml-1" size={32} fill="white" />
+        </div>
+      </div>
+      <div className="p-6 bg-gray-800">
+        <h3 className="text-xl font-bold mb-2 text-white">{title}</h3>
+        <p className="text-sm text-gray-400 mb-4">{description}</p>
+        <button
+          onClick={() => onPlay(videoId)}
+          className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors"
+        >
+          Tonton Video <ArrowRight className="inline ml-1" size={16} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Main Home Component
 const Home = () => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [currentVideoId, setCurrentVideoId] = useState('');
+
+  const openVideo = (videoId) => {
+    setCurrentVideoId(videoId);
+    setIsVideoOpen(true);
+  };
 
   const carouselItems = [
     {
@@ -210,6 +135,21 @@ const Home = () => {
       icon: <BookOpen className="text-purple-400" size={32} />,
       title: "Sertifikasi Kompetensi",
       description: "Lulusan mendapat sertifikat kompetensi yang diakui industri nasional dan internasional."
+    }
+  ];
+
+  const videos = [
+    {
+      videoId: "S8eLyf8JPwY",
+      thumbnail: "https://img.youtube.com/vi/S8eLyf8JPwY/maxresdefault.jpg",
+      title: "Pendidikan Vokasi: Investasi Masa Depan",
+      description: "Pelajari bagaimana pendidikan vokasi mempersiapkan generasi muda menghadapi tantangan Industri 4.0"
+    },
+    {
+      videoId: "RPOC45Um8iU",
+      thumbnail: "https://img.youtube.com/vi/RPOC45Um8iU/maxresdefault.jpg",
+      title: "Revolusi Industri 4.0 dan Pendidikan",
+      description: "Memahami peran pendidikan vokasi dalam era transformasi digital dan otomasi industri"
     }
   ];
 
@@ -307,32 +247,17 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden shadow-xl">
-              <div className="aspect-video relative bg-gray-900 flex items-center justify-center cursor-pointer group"
-                   onClick={() => setIsVideoOpen(true)}>
-                <img 
-                  src="https://img.youtube.com/vi/4OTIMWBt2a0/maxresdefault.jpg"
-                  alt="Video Thumbnail"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity"
-                />
-                <div className="relative z-10 w-20 h-20 rounded-full bg-purple-600 flex items-center justify-center group-hover:bg-purple-700 group-hover:scale-110 transition-all">
-                  <Play className="text-white ml-1" size={32} fill="white" />
-                </div>
-              </div>
-              <div className="p-6 bg-gray-800">
-                <h3 className="text-xl font-bold mb-2 text-white">Pendidikan Vokasi: Investasi Masa Depan</h3>
-                <p className="text-sm text-gray-400 mb-4">
-                  Pelajari bagaimana pendidikan vokasi mempersiapkan generasi muda menghadapi tantangan Industri 4.0
-                </p>
-                <button
-                  onClick={() => setIsVideoOpen(true)}
-                  className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors"
-                >
-                  Tonton Video <ArrowRight className="inline ml-1" size={16} />
-                </button>
-              </div>
-            </div>
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+            {videos.map((video, index) => (
+              <VideoCard 
+                key={index}
+                videoId={video.videoId}
+                thumbnail={video.thumbnail}
+                title={video.title}
+                description={video.description}
+                onPlay={openVideo}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -357,7 +282,7 @@ const Home = () => {
       <VideoModal 
         isOpen={isVideoOpen} 
         onClose={() => setIsVideoOpen(false)} 
-        videoId="4OTIMWBt2a0"
+        videoId={currentVideoId}
       />
     </div>
   );
