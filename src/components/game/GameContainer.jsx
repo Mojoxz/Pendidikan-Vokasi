@@ -1,19 +1,21 @@
-// src/components/game/GameContainer.jsx
-
 import React from 'react';
 import { gameLevels } from '../../data/gameData';
-import GameHUD from './GameHUD';
+import GameHUD from './GameHUD.JSX';
 import MultipleChoiceTask from './tasks/MultipleChoiceTask';
 import SortingTask from './tasks/SortingTask';
 import DragMatchTask from './tasks/DragMatchTask';
 import TaskFeedback from './TaskFeedback';
+import { PauseModal } from './PauseModal';
 
 const GameContainer = ({ 
   gameState, 
   showFeedback,
   feedbackData,
+  showPauseModal,
   onPause, 
   onQuit,
+  onResume,
+  onRestart,
   onSubmitAnswer,
   onNextTask
 }) => {
@@ -48,7 +50,7 @@ const GameContainer = ({
   };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${currentLevel.bgGradient}`}>
+    <div className={`min-h-screen bg-gradient-to-br ${currentLevel.bgGradient} relative`}>
       {/* HUD */}
       <GameHUD
         score={gameState.score}
@@ -62,34 +64,34 @@ const GameContainer = ({
       />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 py-6 md:py-8">
+        <div className="max-w-6xl mx-auto">
           {/* Level Info */}
           <div className="text-center mb-8 animate-fadeInUp">
             <div className="inline-flex items-center gap-3 bg-gray-800/50 backdrop-blur-sm border-2 border-white/20 rounded-full px-6 py-3 mb-4">
               <span className="text-4xl">{currentLevel.icon}</span>
               <div className="text-left">
                 <div className="text-sm text-gray-300">Level {currentLevel.id}</div>
-                <div className="text-white font-bold">{currentLevel.title}</div>
+                <div className="text-white font-bold text-lg">{currentLevel.title}</div>
               </div>
             </div>
-            <p className="text-gray-200 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-200 text-lg max-w-3xl mx-auto">
               {currentLevel.description}
             </p>
           </div>
 
           {/* Task Container */}
-          <div className="bg-gray-900/50 backdrop-blur-sm border-2 border-white/10 rounded-2xl p-6 md:p-8">
+          <div className="bg-gray-900/50 backdrop-blur-sm border-2 border-white/10 rounded-2xl p-6 md:p-8 lg:p-10">
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-purple-400 font-bold">
+                <span className="text-purple-400 font-bold text-lg">
                   Task {gameState.currentTaskIndex + 1} of {currentLevel.tasks.length}
                 </span>
                 <span className="text-gray-400 text-sm">
                   Energy Cost: {currentTask.energy || 10}⚡
                 </span>
               </div>
-              <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300"
                   style={{ 
@@ -99,7 +101,9 @@ const GameContainer = ({
               </div>
             </div>
 
-            {renderTask()}
+            <div className="min-h-[400px] md:min-h-[500px]">
+              {renderTask()}
+            </div>
           </div>
         </div>
       </div>
@@ -114,7 +118,18 @@ const GameContainer = ({
         />
       )}
 
-      <style>{`
+      {/* Pause Modal - Rendered as a portal to ensure proper stacking */}
+      {showPauseModal && (
+        <div className="fixed inset-0 z-[9999]">
+          <PauseModal
+            onResume={onResume}
+            onRestart={onRestart}
+            onQuit={onQuit}
+          />
+        </div>
+      )}
+
+      <style jsx>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;

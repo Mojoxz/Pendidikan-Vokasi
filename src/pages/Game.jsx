@@ -91,37 +91,34 @@ const Game = () => {
 
     case 'playing':
       return (
-        <>
-          <GameContainer
-            gameState={gameState}
-            showFeedback={showFeedback}
-            feedbackData={feedbackData}
-            onPause={pauseGame}
-            onQuit={quitGame}
-            onSubmitAnswer={handleSubmitAnswer}
-            onNextTask={nextTask}
-          />
-        </>
+        <GameContainer
+          gameState={gameState}
+          showFeedback={showFeedback}
+          feedbackData={feedbackData}
+          showPauseModal={false}
+          onPause={pauseGame}
+          onQuit={quitGame}
+          onResume={resumeGame}
+          onRestart={restartLevel}
+          onSubmitAnswer={handleSubmitAnswer}
+          onNextTask={nextTask}
+        />
       );
 
     case 'paused':
       return (
-        <>
-          <GameContainer
-            gameState={gameState}
-            showFeedback={showFeedback}
-            feedbackData={feedbackData}
-            onPause={pauseGame}
-            onQuit={quitGame}
-            onSubmitAnswer={handleSubmitAnswer}
-            onNextTask={nextTask}
-          />
-          <PauseModal
-            onResume={resumeGame}
-            onRestart={restartLevel}
-            onQuit={quitGame}
-          />
-        </>
+        <GameContainer
+          gameState={gameState}
+          showFeedback={showFeedback}
+          feedbackData={feedbackData}
+          showPauseModal={true}
+          onPause={pauseGame}
+          onQuit={quitGame}
+          onResume={resumeGame}
+          onRestart={restartLevel}
+          onSubmitAnswer={handleSubmitAnswer}
+          onNextTask={nextTask}
+        />
       );
 
     case 'levelComplete':
