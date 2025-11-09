@@ -10,6 +10,7 @@ const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/about", label: "Tentang Pendidikan Vokasi" },
     { path: "/interactive", label: "Media Interakif" },
+    {path: "/game", label: "Game Vokasi" },
   ];
 
   const isActive = (path) => location.pathname === path;

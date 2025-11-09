@@ -39,7 +39,7 @@ const Footer = () => {
               <li><a href="/" className="hover:text-purple-400 transition-colors">Beranda</a></li>
               <li><a href="/about" className="hover:text-purple-400 transition-colors">Tentang Vokasi</a></li>
               <li><a href="/interactive" className="hover:text-purple-400 transition-colors">Media Interaktif</a></li>
-              
+              <li><a href="/game" className="hover:text-purple-400 transition-colors">Game Vokasi</a></li>
             </ul>
           </div>
 

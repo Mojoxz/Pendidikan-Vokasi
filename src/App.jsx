@@ -5,8 +5,9 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Interactive from './pages/Interactive';
-import Contact from './pages/Contact';
 import Adventure from './pages/Adventure';
+import Game from './pages/Game';
+
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/interactive" element={<Interactive />} />
             <Route path="/adventure" element={<Adventure />} />
+            <Route path="/game" element={<Game />} />
           </Routes>
         </main>
         <Footer />
