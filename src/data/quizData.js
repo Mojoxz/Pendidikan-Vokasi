@@ -18,25 +18,29 @@ export const quizData = [
           name: "Internet of Things (IoT)",
           description: "Sistem perangkat yang saling terhubung melalui internet untuk bertukar data secara otomatis",
           examples: ["Smart Home", "Sensor Industri", "Wearable Devices"],
-          image: "🌐"
+          image: "🌐",
+          detailContent: "IoT mengubah cara perangkat berkomunikasi dan berinteraksi. Dari rumah pintar hingga pabrik otomatis, teknologi ini memungkinkan kontrol jarak jauh dan otomasi yang efisien."
         },
         {
           name: "Artificial Intelligence (AI)",
           description: "Teknologi yang memungkinkan mesin untuk belajar dan membuat keputusan seperti manusia",
           examples: ["ChatGPT", "Face Recognition", "Recommendation System"],
-          image: "🤖"
+          image: "🤖",
+          detailContent: "AI menggunakan machine learning dan deep learning untuk memahami pola, membuat prediksi, dan mengotomatisasi tugas-tugas kompleks yang sebelumnya memerlukan kecerdasan manusia."
         },
         {
           name: "Big Data Analytics",
           description: "Proses menganalisis volume data yang sangat besar untuk menemukan pola dan insight",
           examples: ["Analisis Pelanggan", "Prediksi Trend", "Risk Management"],
-          image: "📊"
+          image: "📊",
+          detailContent: "Big Data membantu perusahaan mengambil keputusan berbasis data dengan menganalisis jutaan informasi untuk menemukan pola tersembunyi dan peluang bisnis."
         },
         {
           name: "Cloud Computing",
           description: "Layanan komputasi melalui internet yang menyediakan storage, server, dan aplikasi",
           examples: ["Google Drive", "AWS", "Microsoft Azure"],
-          image: "☁️"
+          image: "☁️",
+          detailContent: "Cloud Computing memberikan fleksibilitas dalam menyimpan dan mengakses data dari mana saja, mengurangi biaya infrastruktur, dan meningkatkan kolaborasi tim."
         }
       ],
       keyPoints: [
@@ -66,25 +70,29 @@ export const quizData = [
           name: "Praktik Langsung",
           description: "Siswa belajar dengan peralatan dan teknologi yang sama dengan yang digunakan di industri",
           examples: ["Workshop Mesin", "Lab Komputer", "Kitchen Training"],
-          image: "🔧"
+          image: "🔧",
+          detailContent: "Pembelajaran hands-on memastikan siswa tidak hanya memahami teori, tetapi juga mahir mengoperasikan peralatan dan teknologi yang akan mereka gunakan di dunia kerja."
         },
         {
           name: "Program Magang",
           description: "Kesempatan bekerja langsung di perusahaan untuk mendapat pengalaman nyata",
           examples: ["PKL di Pabrik", "Internship IT", "OJT di Hotel"],
-          image: "🏢"
+          image: "🏢",
+          detailContent: "Magang memberikan exposure ke lingkungan kerja nyata, membangun networking profesional, dan memahami culture perusahaan sebelum lulus."
         },
         {
           name: "Sertifikasi Kompetensi",
           description: "Mendapat sertifikat yang diakui industri sebagai bukti kemampuan",
           examples: ["BNSP", "Sertifikat Profesi", "Industry Certificate"],
-          image: "📜"
+          image: "📜",
+          detailContent: "Sertifikasi kompetensi meningkatkan kredibilitas dan daya saing lulusan, membuktikan bahwa mereka telah memenuhi standar industri yang ditetapkan."
         },
         {
           name: "Link and Match",
           description: "Kurikulum disesuaikan dengan kebutuhan industri terkini",
           examples: ["Teaching Factory", "Kelas Industri", "Project Based Learning"],
-          image: "🤝"
+          image: "🤝",
+          detailContent: "Kolaborasi antara sekolah dan industri memastikan lulusan memiliki skill yang relevan dan dibutuhkan, mengurangi gap antara pendidikan dan dunia kerja."
         }
       ],
       keyPoints: [
@@ -114,25 +122,29 @@ export const quizData = [
           name: "Industri 1.0 (1760-1840)",
           description: "Revolusi mekanisasi dengan tenaga air dan uap",
           examples: ["Mesin Tenun", "Kereta Api", "Pabrik Tekstil"],
-          image: "⚙️"
+          image: "⚙️",
+          detailContent: "Era mekanisasi pertama menggunakan tenaga air dan uap untuk menggerakkan mesin, menggantikan tenaga manusia dan hewan dalam produksi."
         },
         {
           name: "Industri 2.0 (1870-1914)",
           description: "Era produksi massal dengan tenaga listrik",
           examples: ["Assembly Line", "Telegraph", "Lampu Listrik"],
-          image: "⚡"
+          image: "⚡",
+          detailContent: "Listrik memungkinkan produksi massal dan assembly line, meningkatkan kecepatan produksi dan konsistensi kualitas produk."
         },
         {
           name: "Industri 3.0 (1969-2000)",
           description: "Otomasi dengan komputer dan elektronik",
           examples: ["PLC", "Robot Industri", "Internet"],
-          image: "💻"
+          image: "💻",
+          detailContent: "Komputer dan elektronik membawa otomasi ke level baru, memungkinkan kontrol presisi dan efisiensi yang belum pernah ada sebelumnya."
         },
         {
           name: "Industri 4.0 (2011-sekarang)",
           description: "Era digital dengan AI, IoT, dan konektivitas",
           examples: ["Smart Factory", "Autonomous Vehicle", "3D Printing"],
-          image: "🤖"
+          image: "🤖",
+          detailContent: "Integrasi cyber-physical systems menciptakan pabrik pintar yang dapat mengoptimalkan diri sendiri dan membuat keputusan secara otomatis."
         }
       ],
       keyPoints: [
@@ -162,25 +174,29 @@ export const quizData = [
           name: "Critical Thinking",
           description: "Kemampuan menganalisis informasi dan membuat keputusan logis",
           examples: ["Problem Solving", "Data Analysis", "Decision Making"],
-          image: "🧠"
+          image: "🧠",
+          detailContent: "Berpikir kritis membantu menganalisis situasi kompleks, mengevaluasi solusi alternatif, dan membuat keputusan yang tepat berdasarkan data dan logika."
         },
         {
           name: "Creativity & Innovation",
           description: "Kemampuan menciptakan ide baru dan solusi inovatif",
           examples: ["Design Thinking", "Product Development", "Process Improvement"],
-          image: "💡"
+          image: "💡",
+          detailContent: "Kreativitas mendorong inovasi dalam produk, layanan, dan proses, memberikan keunggulan kompetitif di pasar yang terus berubah."
         },
         {
           name: "Digital Literacy",
           description: "Kemampuan menggunakan dan memahami teknologi digital",
           examples: ["Software Skills", "Online Tools", "Cybersecurity Awareness"],
-          image: "📱"
+          image: "📱",
+          detailContent: "Literasi digital bukan hanya tentang menggunakan teknologi, tetapi memahami cara kerjanya, risiko keamanan, dan memanfaatkannya secara efektif."
         },
         {
           name: "Communication & Collaboration",
           description: "Kemampuan bekerja sama dan berkomunikasi efektif",
           examples: ["Teamwork", "Presentation", "Remote Collaboration"],
-          image: "🤝"
+          image: "🤝",
+          detailContent: "Komunikasi efektif dan kolaborasi tim menjadi kunci sukses di era global dan remote work, memungkinkan koordinasi lintas zona waktu dan budaya."
         }
       ],
       keyPoints: [
@@ -210,25 +226,29 @@ export const quizData = [
           name: "Kompetensi Keahlian",
           description: "SMK memiliki berbagai jurusan sesuai kebutuhan industri",
           examples: ["Teknik Mesin", "RPL", "Akuntansi", "Multimedia"],
-          image: "🎓"
+          image: "🎓",
+          detailContent: "Dengan lebih dari 140 program keahlian, SMK menawarkan pilihan karier yang beragam sesuai minat dan bakat siswa."
         },
         {
           name: "Teaching Factory",
           description: "Konsep pembelajaran berbasis produksi nyata",
           examples: ["Produksi Barang", "Jasa Layanan", "Project Real"],
-          image: "🏭"
+          image: "🏭",
+          detailContent: "Teaching factory mengintegrasikan pembelajaran dengan produksi nyata, memberikan pengalaman bisnis dan standar industri sejak di sekolah."
         },
         {
           name: "Prakerin/PKL",
           description: "Praktik kerja industri untuk pengalaman langsung",
           examples: ["3-6 bulan di perusahaan", "Mentoring Profesional", "Real Work Experience"],
-          image: "👔"
+          image: "👔",
+          detailContent: "Prakerin memberikan exposure langsung ke dunia kerja, membangun etos kerja profesional, dan networking dengan praktisi industri."
         },
         {
           name: "Sertifikasi Profesi",
           description: "Uji kompetensi untuk mendapat sertifikat BNSP",
           examples: ["LSP P1", "Asesmen Kompetensi", "Sertifikat Profesi"],
-          image: "🏆"
+          image: "🏆",
+          detailContent: "Sertifikasi profesi memvalidasi kompetensi siswa sesuai standar nasional, meningkatkan kredibilitas dan peluang kerja."
         }
       ],
       keyPoints: [
@@ -258,25 +278,29 @@ export const quizData = [
           name: "Kurikulum Industri",
           description: "Materi pelajaran dikembangkan bersama praktisi industri",
           examples: ["Industry Advisory Board", "Curriculum Review", "Skill Mapping"],
-          image: "📚"
+          image: "📚",
+          detailContent: "Kurikulum yang dirancang bersama industri memastikan materi pembelajaran selalu up-to-date dan relevan dengan kebutuhan pasar kerja."
         },
         {
           name: "Instruktur dari Industri",
           description: "Praktisi profesional mengajar di sekolah vokasi",
           examples: ["Guest Lecture", "Workshop", "Mentoring"],
-          image: "👨‍🏫"
+          image: "👨‍🏫",
+          detailContent: "Instruktur dari industri membawa pengalaman praktis dan best practices terkini, memberikan perspektif real-world kepada siswa."
         },
         {
           name: "Peralatan Standar Industri",
           description: "Fasilitas praktik menggunakan tools yang sama dengan industri",
           examples: ["Mesin CNC", "Software Lisensi", "Lab Modern"],
-          image: "🔧"
+          image: "🔧",
+          detailContent: "Menggunakan peralatan yang sama dengan industri memastikan siswa tidak mengalami culture shock saat memasuki dunia kerja."
         },
         {
           name: "Job Placement",
           description: "Program penempatan kerja untuk lulusan",
           examples: ["Job Fair", "Recruitment Partner", "Career Center"],
-          image: "💼"
+          image: "💼",
+          detailContent: "Program penempatan kerja memfasilitasi transisi dari sekolah ke dunia kerja, menghubungkan lulusan dengan perusahaan partner."
         }
       ],
       keyPoints: [
@@ -306,25 +330,29 @@ export const quizData = [
           name: "Teknologi dan Rekayasa",
           description: "Bidang yang berhubungan dengan engineering dan teknologi",
           examples: ["Teknik Mesin", "Teknik Elektro", "Teknik Otomotif", "Teknik Sipil"],
-          image: "⚙️"
+          image: "⚙️",
+          detailContent: "Bidang teknik menawarkan karier di manufaktur, konstruksi, otomotif, dan energi dengan prospek yang sangat cerah."
         },
         {
           name: "Teknologi Informasi dan Komunikasi",
           description: "Bidang IT, programming, dan multimedia",
           examples: ["RPL", "TKJ", "Multimedia", "Animasi"],
-          image: "💻"
+          image: "💻",
+          detailContent: "Era digital membuat TIK menjadi salah satu bidang dengan permintaan tertinggi dan gaji yang kompetitif."
         },
         {
           name: "Kesehatan dan Pekerjaan Sosial",
           description: "Bidang medis dan kesehatan masyarakat",
           examples: ["Keperawatan", "Farmasi", "Analis Kesehatan"],
-          image: "⚕️"
+          image: "⚕️",
+          detailContent: "Sektor kesehatan terus berkembang dengan permintaan tenaga kesehatan yang tinggi di rumah sakit, klinik, dan fasilitas kesehatan lainnya."
         },
         {
           name: "Bisnis dan Manajemen",
           description: "Bidang administrasi, akuntansi, dan pemasaran",
           examples: ["Akuntansi", "Pemasaran", "OTKP", "Perbankan"],
-          image: "📊"
+          image: "📊",
+          detailContent: "Setiap perusahaan membutuhkan profesional bisnis dan manajemen, membuat bidang ini memiliki peluang kerja yang luas."
         }
       ],
       keyPoints: [
@@ -354,25 +382,29 @@ export const quizData = [
           name: "BNSP (Badan Nasional Sertifikasi Profesi)",
           description: "Lembaga yang memberikan sertifikasi kompetensi nasional",
           examples: ["Sertifikat Kompetensi", "Lisensi Profesi", "Pengakuan Legal"],
-          image: "🏅"
+          image: "🏅",
+          detailContent: "BNSP memberikan sertifikasi yang diakui secara nasional dan internasional, menjadi standar kompetensi bagi profesional Indonesia."
         },
         {
           name: "Standar Kompetensi Internasional",
           description: "Sertifikasi yang diakui secara global",
           examples: ["ISO Certification", "Cisco", "Microsoft Certified", "AWS"],
-          image: "🌍"
+          image: "🌍",
+          detailContent: "Sertifikasi internasional membuka peluang karier global dan meningkatkan mobilitas profesional lintas negara."
         },
         {
           name: "Meningkatkan Daya Saing",
           description: "Sertifikat membuat kandidat lebih unggul di pasar kerja",
           examples: ["Prioritas Rekrutmen", "Salary Negotiation", "Career Advancement"],
-          image: "📈"
+          image: "📈",
+          detailContent: "Kandidat bersertifikasi memiliki prioritas lebih tinggi dalam rekrutmen dan negosiasi gaji, serta lebih cepat naik jabatan."
         },
         {
           name: "Validitas dan Renewal",
           description: "Sertifikat memiliki masa berlaku dan bisa diperbaharui",
           examples: ["3-5 Tahun Validity", "Re-certification", "Continuous Learning"],
-          image: "🔄"
+          image: "🔄",
+          detailContent: "Sistem renewal mendorong continuous learning, memastikan pemegang sertifikat selalu update dengan perkembangan terbaru."
         }
       ],
       keyPoints: [
