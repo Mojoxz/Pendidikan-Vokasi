@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, BookOpen, Target, Sparkles, Award, TrendingUp, Users } from 'lucide-react';
 
 const MateriLandingPage = ({ onStartLearning }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // 确保组件完全加载后再触发动画
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 relative overflow-hidden">
       {/* Animated Background */}
@@ -12,9 +23,9 @@ const MateriLandingPage = ({ onStartLearning }) => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-12 flex items-center justify-center min-h-screen">
-        <div className="max-w-5xl w-full">
+        <div className={`max-w-5xl w-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           {/* Hero Section */}
-          <div className="text-center mb-12 animate-fadeInUp">
+          <div className={`text-center mb-12 ${isLoaded ? 'animate-fadeInUp' : ''}`}>
             <div className="inline-block mb-6">
               <div className="flex items-center gap-2 px-6 py-3 bg-purple-600/30 border-2 border-purple-400 rounded-full backdrop-blur-sm">
                 <Sparkles className="text-yellow-400 animate-pulse" size={24} />
@@ -49,7 +60,7 @@ const MateriLandingPage = ({ onStartLearning }) => {
           </div>
 
           {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+          <div className={`grid md:grid-cols-3 gap-6 mb-12 ${isLoaded ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: isLoaded ? '0.2s' : '0s' }}>
             <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 border-2 border-purple-500 rounded-2xl p-6 backdrop-blur-sm hover:scale-105 transition-transform">
               <div className="bg-purple-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
                 <BookOpen className="text-white" size={28} />
@@ -82,7 +93,7 @@ const MateriLandingPage = ({ onStartLearning }) => {
           </div>
 
           {/* What You'll Learn */}
-          <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 border-2 border-gray-700 rounded-2xl p-8 backdrop-blur-sm animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
+          <div className={`bg-gradient-to-r from-gray-800/50 to-gray-900/50 border-2 border-gray-700 rounded-2xl p-8 backdrop-blur-sm ${isLoaded ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: isLoaded ? '0.4s' : '0s' }}>
             <div className="flex items-center gap-3 mb-6">
               <div className="bg-gradient-to-r from-yellow-500 to-orange-500 w-12 h-12 rounded-xl flex items-center justify-center">
                 <Sparkles className="text-white" size={24} />
@@ -174,7 +185,7 @@ const MateriLandingPage = ({ onStartLearning }) => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mt-12 animate-fadeInUp" style={{ animationDelay: '0.6s' }}>
+          <div className={`grid grid-cols-3 gap-4 mt-12 ${isLoaded ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: isLoaded ? '0.6s' : '0s' }}>
             <div className="text-center">
               <div className="text-4xl font-bold text-purple-400 mb-2">8</div>
               <div className="text-gray-400 text-sm">Materi Lengkap</div>
@@ -215,7 +226,6 @@ const MateriLandingPage = ({ onStartLearning }) => {
 
         .animate-fadeInUp {
           animation: fadeInUp 0.8s ease-out forwards;
-          opacity: 0;
         }
 
         .animate-gradient {

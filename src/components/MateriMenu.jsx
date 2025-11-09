@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, BookOpen, Trophy, ArrowRight, Sparkles, CheckCircle } from 'lucide-react';
 
 const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // 确保组件完全加载后再触发动画
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   const menuItems = [
     {
       id: 1,
@@ -89,7 +100,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
 
       <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12 animate-fadeInDown">
+        <div className={`text-center mb-12 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isLoaded ? 'animate-fadeInDown' : ''}`}>
           <div className="inline-block mb-4">
             <div className="flex items-center gap-2 px-6 py-3 bg-purple-600/30 border-2 border-purple-400 rounded-full backdrop-blur-sm">
               <Sparkles className="text-yellow-400" size={20} />
@@ -122,8 +133,8 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
           </div>
         </div>
 
-        {/* Menu Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        {/* Menu Grid - Equal Height Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto" style={{ gridAutoRows: '1fr' }}>
           {menuItems.map((item, index) => {
             const completed = isCompleted(item.id);
             
@@ -131,10 +142,10 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
               <div
                 key={item.id}
                 onClick={() => onSelectMateri(item.id)}
-                className="group cursor-pointer animate-fadeInUp relative"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`group cursor-pointer relative transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isLoaded ? 'animate-fadeInUp' : ''}`}
+                style={{ animationDelay: isLoaded ? `${index * 0.1}s` : '0s' }}
               >
-                <div className={`relative bg-gray-800/50 border-2 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:-translate-y-2 ${
+                <div className={`relative h-full bg-gray-800/50 border-2 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:-translate-y-2 flex flex-col ${
                   completed 
                     ? 'border-green-500 shadow-green-500/20' 
                     : 'border-gray-700 hover:border-purple-400 hover:shadow-purple-500/20'
@@ -148,14 +159,14 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
                   )}
 
                   {/* Icon Circle */}
-                  <div className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-4xl transform transition-transform group-hover:rotate-12 group-hover:scale-110 ${
+                  <div className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-4xl transform transition-transform group-hover:rotate-12 group-hover:scale-110 flex-shrink-0 ${
                     completed ? 'opacity-80' : ''
                   }`}>
                     {item.icon}
                   </div>
 
                   {/* Title */}
-                  <h3 className={`text-lg font-bold mb-2 text-center transition-colors ${
+                  <h3 className={`text-lg font-bold mb-2 text-center transition-colors line-clamp-2 flex-grow-0 ${
                     completed 
                       ? 'text-green-300' 
                       : 'text-white group-hover:text-purple-300'
@@ -164,13 +175,16 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm text-gray-400 mb-4 text-center line-clamp-2">
+                  <p className="text-sm text-gray-400 mb-4 text-center line-clamp-3 flex-grow">
                     {item.description}
                   </p>
 
+                  {/* Spacer for consistent height */}
+                  <div className="flex-grow"></div>
+
                   {/* Meta Info */}
                   <div className="flex items-center justify-between text-xs mb-3">
-                    <span className={`px-2 py-1 rounded-full font-bold ${
+                    <span className={`px-2 py-1 rounded-full font-bold flex-shrink-0 ${
                       item.difficulty === 'Pemula' 
                         ? 'bg-green-900/50 text-green-300'
                         : item.difficulty === 'Menengah'
@@ -179,11 +193,11 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
                     }`}>
                       {item.difficulty}
                     </span>
-                    <span className="text-gray-400">⏱️ {item.duration}</span>
+                    <span className="text-gray-400 flex-shrink-0">⏱️ {item.duration}</span>
                   </div>
 
                   {/* Play Button */}
-                  <button className={`w-full font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 group-hover:shadow-lg ${
+                  <button className={`w-full font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 group-hover:shadow-lg flex-shrink-0 ${
                     completed
                       ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white'
                       : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
@@ -211,7 +225,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
         </div>
 
         {/* Bottom Tips */}
-        <div className="mt-12 max-w-4xl mx-auto">
+        <div className={`mt-12 max-w-4xl mx-auto transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '0.5s' }}>
           <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border-2 border-blue-500/50 rounded-2xl p-6 backdrop-blur-sm">
             <div className="flex items-start gap-4">
               <div className="text-4xl">💡</div>
@@ -285,7 +299,6 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
 
         .animate-fadeInUp {
           animation: fadeInUp 0.6s ease-out forwards;
-          opacity: 0;
         }
 
         .animate-gradient {
@@ -300,6 +313,13 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
