@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,8 +21,17 @@ const Navbar = () => {
           <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
               <div className="absolute inset-0 bg-purple-500 rounded-full blur-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative bg-purple-600 p-2 rounded-full group-hover:rotate-12 transition-transform">
-                <Sparkles className="text-white" size={24} />
+              <div className="relative w-10 h-10 bg-purple-600 rounded-full overflow-hidden group-hover:rotate-12 transition-transform flex items-center justify-center">
+                <img 
+                  src="https://images.unsplash.com/photo-1620712943543-cc463c95eb17?w=40&h=40&fit=crop&crop=center" 
+                  alt="Vokasi 4.0 Logo"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback jika gambar gagal dimuat
+                    e.target.onerror = null;
+                    e.target.src = "https://picsum.photos/seed/vokasi40/40/40.jpg";
+                  }}
+                />
               </div>
             </div>
             <div className="hidden md:block">

@@ -17,7 +17,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 1,
       title: "Teknologi Industri 4.0",
-      icon: "🤖",
+      icon: "https://images.unsplash.com/photo-1620712943543-cc463c95eb17?w=100&h=100&fit=crop&crop=center",
       color: "from-blue-500 to-cyan-500",
       description: "Pelajari IoT, AI, Big Data, dan Cloud Computing",
       difficulty: "Pemula",
@@ -26,7 +26,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 2,
       title: "Keunggulan Pendidikan Vokasi",
-      icon: "🎓",
+      icon: "https://images.unsplash.com/photo-1581078426770-6d336e5de7bf?w=100&h=100&fit=crop&crop=center",
       color: "from-purple-500 to-pink-500",
       description: "Praktik Langsung, Magang, dan Sertifikasi",
       difficulty: "Pemula",
@@ -35,7 +35,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 3,
       title: "Evolusi Revolusi Industri",
-      icon: "⚙️",
+      icon: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop&crop=center",
       color: "from-orange-500 to-red-500",
       description: "Dari Industri 1.0 hingga 4.0",
       difficulty: "Menengah",
@@ -44,7 +44,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 4,
       title: "Keterampilan Abad 21",
-      icon: "💡",
+      icon: "https://images.unsplash.com/photo-1554469384-e58e1667c4ab?w=100&h=100&fit=crop&crop=center",
       color: "from-green-500 to-emerald-500",
       description: "Critical Thinking, Creativity, Digital Literacy",
       difficulty: "Menengah",
@@ -53,7 +53,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 5,
       title: "Sistem Pendidikan SMK",
-      icon: "🏫",
+      icon: "https://images.unsplash.com/photo-1581078426770-6d336e5de7bf?w=100&h=100&fit=crop&crop=center",
       color: "from-indigo-500 to-purple-500",
       description: "Teaching Factory, Prakerin, dan Sertifikasi",
       difficulty: "Pemula",
@@ -62,7 +62,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 6,
       title: "Program Link and Match",
-      icon: "🔗",
+      icon: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=100&h=100&fit=crop&crop=center",
       color: "from-pink-500 to-rose-500",
       description: "Kurikulum Industri dan Job Placement",
       difficulty: "Menengah",
@@ -71,7 +71,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 7,
       title: "Spektrum Bidang Keahlian",
-      icon: "🎯",
+      icon: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=100&h=100&fit=crop&crop=center",
       color: "from-cyan-500 to-blue-500",
       description: "Teknik, IT, Bisnis, dan Kesehatan",
       difficulty: "Pemula",
@@ -80,7 +80,7 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
     {
       id: 8,
       title: "Pentingnya Sertifikasi",
-      icon: "🏅",
+      icon: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
       color: "from-yellow-500 to-orange-500",
       description: "BNSP, Standar Internasional, dan Daya Saing",
       difficulty: "Lanjut",
@@ -158,11 +158,20 @@ const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) =>
                     </div>
                   )}
 
-                  {/* Icon Circle */}
-                  <div className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-4xl transform transition-transform group-hover:rotate-12 group-hover:scale-110 flex-shrink-0 ${
+                  {/* Image Circle - Mengganti emoji dengan gambar online */}
+                  <div className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-4xl transform transition-transform group-hover:rotate-12 group-hover:scale-110 flex-shrink-0 overflow-hidden ${
                     completed ? 'opacity-80' : ''
                   }`}>
-                    {item.icon}
+                    <img 
+                      src={item.icon} 
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        // Fallback jika gambar gagal dimuat
+                        e.target.onerror = null;
+                        e.target.src = `https://picsum.photos/seed/${item.id}/100/100.jpg`;
+                      }}
+                    />
                   </div>
 
                   {/* Title */}
