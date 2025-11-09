@@ -47,191 +47,130 @@ const Game = () => {
   switch (gameStatus) {
     case 'menu':
       return (
-        <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-          {/* Background Pattern - mirip dengan Home */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
-          </div>
-          
-          <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="flex flex-col items-center justify-center min-h-screen">
-              <div className="w-full max-w-7xl">
-                <GameMenu
-                  onStartGame={startGame}
-                  onContinueGame={continueGame}
-                  hasSavedGame={hasSavedGame}
-                />
+        <div className="min-h-screen bg-gray-900 pt-20 pb-20">
+          <div className="container mx-auto px-4 py-12">
+            {/* Header */}
+            <div className="text-center mb-12 text-white animate-fadeInUp">
+              <div className="inline-block mb-4 px-4 py-2 bg-purple-600/30 border-2 border-purple-400 rounded-full">
+                <span className="text-sm font-bold text-white">🎮 Game Interaktif</span>
               </div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
+                Industry 4.0 Challenge
+              </h1>
+              <p className="text-xl text-gray-200 max-w-2xl mx-auto">
+                Uji kemampuanmu dalam menghadapi tantangan teknologi Vokasi 4.0
+              </p>
             </div>
+
+            <GameMenu
+              onStartGame={startGame}
+              onContinueGame={continueGame}
+              hasSavedGame={hasSavedGame}
+            />
           </div>
+
+          {/* Custom Animations */}
+          <style>{`
+            @keyframes fadeInUp {
+              from {
+                opacity: 0;
+                transform: translateY(20px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+
+            .animate-fadeInUp {
+              animation: fadeInUp 0.6s ease-out;
+            }
+          `}</style>
         </div>
       );
 
     case 'playing':
       return (
-        <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-          {/* Background Pattern - mirip dengan Home */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
-          </div>
-          
-          <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="w-full max-w-7xl mx-auto">
-              <GameContainer
-                gameState={gameState}
-                showFeedback={showFeedback}
-                feedbackData={feedbackData}
-                onPause={pauseGame}
-                onQuit={quitGame}
-                onSubmitAnswer={handleSubmitAnswer}
-                onNextTask={nextTask}
-              />
-            </div>
-          </div>
-        </div>
+        <>
+          <GameContainer
+            gameState={gameState}
+            showFeedback={showFeedback}
+            feedbackData={feedbackData}
+            onPause={pauseGame}
+            onQuit={quitGame}
+            onSubmitAnswer={handleSubmitAnswer}
+            onNextTask={nextTask}
+          />
+        </>
       );
 
     case 'paused':
       return (
-        <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-          {/* Background Pattern - mirip dengan Home */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
-          </div>
-          
-          <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="w-full max-w-7xl mx-auto">
-              <GameContainer
-                gameState={gameState}
-                showFeedback={showFeedback}
-                feedbackData={feedbackData}
-                onPause={pauseGame}
-                onQuit={quitGame}
-                onSubmitAnswer={handleSubmitAnswer}
-                onNextTask={nextTask}
-              />
-            </div>
-          </div>
-          
+        <>
+          <GameContainer
+            gameState={gameState}
+            showFeedback={showFeedback}
+            feedbackData={feedbackData}
+            onPause={pauseGame}
+            onQuit={quitGame}
+            onSubmitAnswer={handleSubmitAnswer}
+            onNextTask={nextTask}
+          />
           <PauseModal
             onResume={resumeGame}
+            onRestart={restartLevel}
+            onQuit={quitGame}
+          />
+        </>
+      );
+
+    case 'levelComplete':
+      return (
+        <div className="min-h-screen bg-gray-900 pt-20 pb-20">
+          <LevelComplete
+            levelTitle={feedbackData?.levelTitle || ''}
+            finalScore={feedbackData?.finalScore || gameState.score}
+            stars={feedbackData?.stars || 0}
+            timeBonus={feedbackData?.timeBonus || 0}
+            energyBonus={feedbackData?.energyBonus || 0}
+            perfectBonus={feedbackData?.perfectBonus || 0}
+            isPerfect={feedbackData?.isPerfect || false}
+            onNextLevel={nextLevel}
+            isLastLevel={gameState.currentLevel >= gameLevels.length}
+          />
+        </div>
+      );
+
+    case 'gameOver':
+      return (
+        <div className="pt-20">
+          <GameOver
+            score={gameState.score}
+            level={gameState.currentLevel}
             onRestart={restartLevel}
             onQuit={quitGame}
           />
         </div>
       );
 
-    case 'levelComplete':
-      return (
-        <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-          {/* Background Pattern - mirip dengan Home */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
-          </div>
-          
-          <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="flex flex-col items-center justify-center min-h-screen">
-              <div className="w-full max-w-7xl">
-                <LevelComplete
-                  levelTitle={feedbackData?.levelTitle || ''}
-                  finalScore={feedbackData?.finalScore || gameState.score}
-                  stars={feedbackData?.stars || 0}
-                  timeBonus={feedbackData?.timeBonus || 0}
-                  energyBonus={feedbackData?.energyBonus || 0}
-                  perfectBonus={feedbackData?.perfectBonus || 0}
-                  isPerfect={feedbackData?.isPerfect || false}
-                  onNextLevel={nextLevel}
-                  isLastLevel={gameState.currentLevel >= gameLevels.length}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-
-    case 'gameOver':
-      return (
-        <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-          {/* Background Pattern - mirip dengan Home */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
-          </div>
-          
-          <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="flex flex-col items-center justify-center min-h-screen">
-              <div className="w-full max-w-7xl">
-                <GameOver
-                  score={gameState.score}
-                  level={gameState.currentLevel}
-                  onRestart={restartLevel}
-                  onQuit={quitGame}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-
     case 'victory':
       return (
-        <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-          {/* Background Pattern - mirip dengan Home */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
-          </div>
-          
-          <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="flex flex-col items-center justify-center min-h-screen">
-              <div className="w-full max-w-7xl">
-                <Victory
-                  finalScore={gameState.score}
-                  completedLevels={gameState.completedLevels}
-                  onRestart={startGame}
-                  onQuit={quitGame}
-                />
-              </div>
-            </div>
-          </div>
+        <div className="pt-20">
+          <Victory
+            finalScore={gameState.score}
+            completedLevels={gameState.completedLevels}
+            onRestart={startGame}
+            onQuit={quitGame}
+          />
         </div>
       );
 
     default:
       return (
-        <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-          {/* Background Pattern - mirip dengan Home */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
-          </div>
-          
-          <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <div className="flex flex-col items-center justify-center min-h-screen">
-              <div className="text-white text-2xl md:text-3xl lg:text-4xl mb-8">Loading...</div>
-              {/* Logo placeholder dengan ukuran yang lebih besar */}
-              <div className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-2xl bg-gray-800 flex items-center justify-center shadow-2xl">
-                <span className="text-purple-400 text-5xl md:text-6xl lg:text-8xl font-bold">LOGO</span>
-              </div>
-            </div>
+        <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white pt-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
+            <div className="text-gray-400">Loading game...</div>
           </div>
         </div>
       );
