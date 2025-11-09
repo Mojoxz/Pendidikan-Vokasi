@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Home, ChevronLeft, ChevronRight, CheckCircle, BookOpen, Lightbulb } from 'lucide-react';
+import { Home, ChevronLeft, ChevronRight, CheckCircle, BookOpen, Lightbulb, Menu, X } from 'lucide-react';
 
 const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
   const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
   const [completedTopics, setCompletedTopics] = useState([]);
   const [showTopicDetail, setShowTopicDetail] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const currentTopic = materi.topics[currentTopicIndex];
   const progress = ((completedTopics.length / materi.topics.length) * 100).toFixed(0);
@@ -42,6 +43,8 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
   const handleTopicClick = (index) => {
     setCurrentTopicIndex(index);
     setShowTopicDetail(false);
+    // Close sidebar on mobile after selecting a topic
+    setSidebarOpen(false);
   };
 
   return (
@@ -52,32 +55,42 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
         <div className="absolute w-96 h-96 bg-blue-500/10 rounded-full blur-3xl bottom-0 left-0 animate-pulse delay-1000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="relative z-10 container mx-auto px-4 py-4 sm:py-8">
         {/* Top Navigation Bar */}
-        <div className="flex items-center justify-between mb-8 animate-fadeInDown">
-          <button
-            onClick={onBackToMenu}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-800/80 hover:bg-gray-700 border-2 border-gray-600 hover:border-purple-400 rounded-xl text-white font-bold transition-all backdrop-blur-sm"
-          >
-            <Home size={20} />
-            <span className="hidden sm:inline">Kembali ke Menu</span>
-          </button>
+        <div className="flex items-center justify-between mb-6 animate-fadeInDown">
+          <div className="flex items-center gap-2">
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="lg:hidden flex items-center justify-center p-2 bg-gray-800/80 hover:bg-gray-700 border-2 border-gray-600 hover:border-purple-400 rounded-xl text-white font-bold transition-all backdrop-blur-sm"
+            >
+              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            
+            <button
+              onClick={onBackToMenu}
+              className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-gray-800/80 hover:bg-gray-700 border-2 border-gray-600 hover:border-purple-400 rounded-xl text-white font-bold transition-all backdrop-blur-sm"
+            >
+              <Home size={20} />
+              <span className="hidden sm:inline">Kembali</span>
+            </button>
+          </div>
 
-          <div className="flex items-center gap-3">
-            <div className="px-4 py-2 bg-gray-800/80 border-2 border-gray-600 rounded-xl backdrop-blur-sm">
-              <span className="text-gray-400 text-sm">Progress: </span>
-              <span className="text-purple-400 font-bold">{progress}%</span>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="px-3 py-2 bg-gray-800/80 border-2 border-gray-600 rounded-xl backdrop-blur-sm">
+              <span className="text-gray-400 text-xs sm:text-sm">Progress: </span>
+              <span className="text-purple-400 font-bold text-xs sm:text-sm">{progress}%</span>
             </div>
-            <div className="px-4 py-2 bg-gray-800/80 border-2 border-gray-600 rounded-xl backdrop-blur-sm">
-              <span className="text-gray-400 text-sm">Topik: </span>
-              <span className="text-white font-bold">{currentTopicIndex + 1}/{materi.topics.length}</span>
+            <div className="px-3 py-2 bg-gray-800/80 border-2 border-gray-600 rounded-xl backdrop-blur-sm">
+              <span className="text-gray-400 text-xs sm:text-sm">Topik: </span>
+              <span className="text-white font-bold text-xs sm:text-sm">{currentTopicIndex + 1}/{materi.topics.length}</span>
             </div>
           </div>
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-8 animate-fadeInDown" style={{ animationDelay: '0.1s' }}>
-          <div className="w-full bg-gray-800/50 rounded-full h-4 border-2 border-gray-700 backdrop-blur-sm overflow-hidden">
+        <div className="mb-6 animate-fadeInDown" style={{ animationDelay: '0.1s' }}>
+          <div className="w-full bg-gray-800/50 rounded-full h-3 sm:h-4 border-2 border-gray-700 backdrop-blur-sm overflow-hidden">
             <div 
               className="bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 h-full transition-all duration-500 rounded-full relative overflow-hidden"
               style={{ width: `${progress}%` }}
@@ -87,13 +100,30 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-6">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
           {/* Sidebar - Topic Navigation */}
-          <div className="lg:col-span-1 animate-fadeInLeft">
-            <div className="bg-gray-800/50 border-2 border-gray-700 rounded-2xl p-6 backdrop-blur-sm sticky top-8">
-              <div className="flex items-center gap-2 mb-4">
-                <BookOpen className="text-purple-400" size={20} />
-                <h3 className="text-lg font-bold text-white">Daftar Topik</h3>
+          <div className={`${sidebarOpen ? 'fixed inset-0 z-50' : 'hidden'} lg:block lg:col-span-1 lg:relative lg:z-auto animate-fadeInLeft`}>
+            {/* Overlay for mobile */}
+            {sidebarOpen && (
+              <div 
+                className="absolute inset-0 bg-black/50 z-40" 
+                onClick={() => setSidebarOpen(false)}
+              ></div>
+            )}
+            
+            <div className={`${sidebarOpen ? 'absolute inset-y-0 left-0 w-80 max-w-full' : 'relative'} lg:relative bg-gray-800/50 border-2 border-gray-700 rounded-2xl p-4 sm:p-6 backdrop-blur-sm lg:sticky lg:top-8 overflow-y-auto`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="text-purple-400" size={20} />
+                  <h3 className="text-lg font-bold text-white">Daftar Topik</h3>
+                </div>
+                {/* Close button for mobile */}
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="lg:hidden p-1 rounded-lg hover:bg-gray-700"
+                >
+                  <X size={20} className="text-white" />
+                </button>
               </div>
 
               <div className="space-y-2">
@@ -109,7 +139,7 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
                         : 'bg-gray-700/50 text-gray-300 border-2 border-gray-600 hover:bg-gray-700 hover:border-purple-400'
                     }`}
                   >
-                    <div className="text-2xl flex-shrink-0">{topic.image}</div>
+                    <div className="text-xl sm:text-2xl flex-shrink-0">{topic.image}</div>
                     <div className="flex-grow min-w-0">
                       <div className="text-sm font-bold truncate">{topic.name}</div>
                     </div>
@@ -124,42 +154,42 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
 
           {/* Main Content Area */}
           <div className="lg:col-span-3 animate-fadeInRight">
-            <div className="bg-gray-800/50 border-2 border-gray-700 rounded-2xl p-8 backdrop-blur-sm">
+            <div className="bg-gray-800/50 border-2 border-gray-700 rounded-2xl p-4 sm:p-8 backdrop-blur-sm">
               {/* Materi Header */}
-              <div className="text-center mb-8">
-                <div className={`inline-block w-24 h-24 rounded-2xl bg-gradient-to-br ${materi.color} flex items-center justify-center text-5xl mb-4 animate-bounce-slow`}>
+              <div className="text-center mb-6 sm:mb-8">
+                <div className={`inline-block w-16 h-16 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br ${materi.color} flex items-center justify-center text-3xl sm:text-5xl mb-4 animate-bounce-slow`}>
                   {materi.icon}
                 </div>
                 <div className="mb-2">
-                  <span className="inline-block px-4 py-1 bg-purple-600 text-white rounded-full text-sm font-bold">
+                  <span className="inline-block px-3 py-1 sm:px-4 sm:py-1 bg-purple-600 text-white rounded-full text-xs sm:text-sm font-bold">
                     {materi.title}
                   </span>
                 </div>
               </div>
 
               {/* Current Topic Content */}
-              <div className="mb-8">
+              <div className="mb-6 sm:mb-8">
                 {/* Topic Header */}
-                <div className="flex items-start gap-4 mb-6 p-6 bg-gradient-to-r from-purple-900/50 to-pink-900/50 border-2 border-purple-500 rounded-xl">
-                  <div className="text-6xl">{currentTopic.image}</div>
+                <div className="flex items-start gap-3 sm:gap-4 mb-6 p-4 sm:p-6 bg-gradient-to-r from-purple-900/50 to-pink-900/50 border-2 border-purple-500 rounded-xl">
+                  <div className="text-4xl sm:text-6xl">{currentTopic.image}</div>
                   <div className="flex-grow">
-                    <h2 className="text-3xl font-bold text-white mb-2">{currentTopic.name}</h2>
-                    <p className="text-gray-200 text-lg">{currentTopic.description}</p>
+                    <h2 className="text-xl sm:text-3xl font-bold text-white mb-2">{currentTopic.name}</h2>
+                    <p className="text-gray-200 text-sm sm:text-lg">{currentTopic.description}</p>
                   </div>
                 </div>
 
                 {/* Examples */}
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                    <Lightbulb className="text-yellow-400" size={24} />
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-3 flex items-center gap-2">
+                    <Lightbulb className="text-yellow-400" size={20} />
                     Contoh Penerapan:
                   </h3>
-                  <div className="grid md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {currentTopic.examples.map((example, idx) => (
-                      <div key={idx} className="p-4 bg-gray-700/50 border-2 border-gray-600 rounded-xl hover:border-purple-400 transition-all">
+                      <div key={idx} className="p-3 sm:p-4 bg-gray-700/50 border-2 border-gray-600 rounded-xl hover:border-purple-400 transition-all">
                         <div className="text-center">
-                          <div className="text-3xl mb-2">✓</div>
-                          <div className="text-sm text-white font-medium">{example}</div>
+                          <div className="text-2xl sm:text-3xl mb-2">✓</div>
+                          <div className="text-xs sm:text-sm text-white font-medium">{example}</div>
                         </div>
                       </div>
                     ))}
@@ -170,43 +200,43 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
                 {currentTopic.detailContent && (
                   <button
                     onClick={() => setShowTopicDetail(!showTopicDetail)}
-                    className="w-full mb-6 p-4 bg-blue-900/30 hover:bg-blue-900/50 border-2 border-blue-500 rounded-xl transition-all flex items-center justify-between group"
+                    className="w-full mb-6 p-3 sm:p-4 bg-blue-900/30 hover:bg-blue-900/50 border-2 border-blue-500 rounded-xl transition-all flex items-center justify-between group"
                   >
                     <div className="flex items-center gap-3">
-                      <BookOpen className="text-blue-400" size={24} />
-                      <span className="text-white font-bold">
+                      <BookOpen className="text-blue-400" size={20} />
+                      <span className="text-white font-bold text-sm sm:text-base">
                         {showTopicDetail ? 'Sembunyikan' : 'Lihat'} Detail Penjelasan
                       </span>
                     </div>
                     <ChevronRight 
                       className={`text-blue-400 transition-transform ${showTopicDetail ? 'rotate-90' : ''}`} 
-                      size={24} 
+                      size={20} 
                     />
                   </button>
                 )}
 
                 {/* Detail Content (Collapsible) */}
                 {showTopicDetail && currentTopic.detailContent && (
-                  <div className="mb-6 p-6 bg-gradient-to-r from-blue-900/30 to-purple-900/30 border-2 border-blue-500 rounded-xl animate-fadeIn">
-                    <p className="text-gray-200 text-lg leading-relaxed">{currentTopic.detailContent}</p>
+                  <div className="mb-6 p-4 sm:p-6 bg-gradient-to-r from-blue-900/30 to-purple-900/30 border-2 border-blue-500 rounded-xl animate-fadeIn">
+                    <p className="text-gray-200 text-sm sm:text-lg leading-relaxed">{currentTopic.detailContent}</p>
                   </div>
                 )}
               </div>
 
               {/* Key Points (shown when all topics completed) */}
               {allTopicsCompleted && (
-                <div className="mb-6 p-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border-2 border-green-500 rounded-xl animate-fadeIn">
+                <div className="mb-6 p-4 sm:p-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border-2 border-green-500 rounded-xl animate-fadeIn">
                   <div className="flex items-center gap-2 mb-4">
-                    <CheckCircle className="text-green-400" size={24} />
-                    <h3 className="text-xl font-bold text-white">🎉 Selamat! Poin Penting dari Materi Ini:</h3>
+                    <CheckCircle className="text-green-400" size={20} />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">🎉 Selamat! Poin Penting dari Materi Ini:</h3>
                   </div>
                   <div className="space-y-3">
                     {materi.keyPoints.map((point, index) => (
                       <div key={index} className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
+                        <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold mt-0.5">
                           {index + 1}
                         </div>
-                        <p className="text-gray-200 leading-relaxed">{point}</p>
+                        <p className="text-gray-200 text-sm sm:text-base leading-relaxed">{point}</p>
                       </div>
                     ))}
                   </div>
@@ -214,11 +244,11 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
               )}
 
               {/* Navigation Buttons */}
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <button
                   onClick={handlePrevTopic}
                   disabled={currentTopicIndex === 0}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
+                  className={`w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-xl font-bold transition-all ${
                     currentTopicIndex === 0
                       ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
                       : 'bg-gray-700 hover:bg-gray-600 text-white border-2 border-gray-600 hover:border-purple-400'
@@ -231,7 +261,7 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
                 {!isLastTopic ? (
                   <button
                     onClick={handleNextTopic}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
                   >
                     <span>Topik Selanjutnya</span>
                     <ChevronRight size={20} />
@@ -239,7 +269,7 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
                 ) : (
                   <button
                     onClick={handleNextTopic}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
                   >
                     <CheckCircle size={20} />
                     <span>Selesai Materi</span>
