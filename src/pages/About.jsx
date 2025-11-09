@@ -26,7 +26,7 @@ const StatCard = ({ number, label, icon }) => (
 );
 
 // ===== CAROUSEL ZIGZAG COMPONENT =====
-const CarouselZigzag = ({ items, type = 'default' }) => {
+const CarouselZigzag = ({ items, type = 'default', isZigzagLeft = false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % items.length);
@@ -36,7 +36,7 @@ const CarouselZigzag = ({ items, type = 'default' }) => {
   const isEven = currentIndex % 2 === 0;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${isZigzagLeft ? 'ml-0' : 'mr-0'}`}>
       <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-12 mb-8`}>
         {/* Content Side */}
         <div className="flex-1 w-full">
@@ -99,7 +99,7 @@ const CarouselZigzag = ({ items, type = 'default' }) => {
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-center gap-4 mt-8">
+      <div className={`flex items-center gap-4 mt-8 ${isZigzagLeft ? 'justify-start' : 'justify-end'}`}>
         <button
           onClick={prev}
           className="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 hover:border-purple-500 hover:bg-gray-700 transition-all flex items-center justify-center text-white"
@@ -128,7 +128,7 @@ const CarouselZigzag = ({ items, type = 'default' }) => {
       </div>
 
       {/* Counter */}
-      <div className="text-center mt-6">
+      <div className={`${isZigzagLeft ? 'text-left' : 'text-right'} mt-6`}>
         <span className="text-gray-400 text-sm">
           {currentIndex + 1} / {items.length}
         </span>
@@ -138,7 +138,7 @@ const CarouselZigzag = ({ items, type = 'default' }) => {
 };
 
 // ===== ACCORDION COMPONENT =====
-const AccordionItem = ({ title, content, isOpen, onClick }) => (
+const AccordionItem = ({ title, content, isOpen, onClick, isZigzagLeft = false }) => (
   <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden mb-4">
     <button
       onClick={onClick}
@@ -156,10 +156,10 @@ const AccordionItem = ({ title, content, isOpen, onClick }) => (
 );
 
 // ===== TIMELINE COMPONENT =====
-const Timeline = ({ items }) => (
-  <div className="space-y-6">
+const Timeline = ({ items, isZigzagLeft = false }) => (
+  <div className={`space-y-6 ${isZigzagLeft ? 'ml-0' : 'mr-0'}`}>
     {items.map((item, index) => (
-      <div key={index} className="flex items-center gap-6">
+      <div key={index} className={`flex items-center gap-6 ${isZigzagLeft ? '' : 'flex-row-reverse'}`}>
         <div className={`flex-shrink-0 w-24 h-24 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center text-white font-bold text-xl shadow-lg`}>
           {item.era}
         </div>
@@ -174,7 +174,7 @@ const Timeline = ({ items }) => (
 );
 
 // ===== REFERENCE CARD COMPONENT =====
-const ReferenceCard = ({ title, description, url }) => (
+const ReferenceCard = ({ title, description, url, isZigzagLeft = false }) => (
   <Card className="p-6 hover:border-purple-500">
     <h4 className="text-lg font-bold text-white mb-2">{title}</h4>
     <p className="text-gray-400 text-sm mb-3">{description}</p>
@@ -191,7 +191,7 @@ const ReferenceCard = ({ title, description, url }) => (
 
 // ===== HERO COMPONENT =====
 const Hero = () => (
-  <section className="relative py-32 text-white overflow-hidden">
+  <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
     <div className="absolute inset-0">
       <img 
         src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1920&q=80"
@@ -199,13 +199,6 @@ const Hero = () => (
         className="w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-purple-900/90 to-gray-900/95"></div>
-    </div>
-    
-    <div className="absolute inset-0 opacity-10">
-      <div className="absolute inset-0" style={{
-        backgroundImage: 'radial-gradient(circle at 20% 50%, purple 1px, transparent 1px), radial-gradient(circle at 80% 80%, purple 1px, transparent 1px)',
-        backgroundSize: '50px 50px'
-      }} />
     </div>
     
     <div className="relative z-10 container mx-auto px-4">
@@ -404,7 +397,7 @@ const About = () => {
             subtitle="Mengapa memilih pendidikan vokasi sebagai jalur pendidikanmu?"
             isZigzagLeft={true}
           />
-          <CarouselZigzag items={benefits} type="benefit" />
+          <CarouselZigzag items={benefits} type="benefit" isZigzagLeft={true} />
         </div>
       </section>
 
@@ -416,7 +409,7 @@ const About = () => {
             subtitle="Era di mana teknologi digital mengubah cara kita bekerja, belajar, dan berinovasi"
             isZigzagLeft={false}
           />
-          <CarouselZigzag items={technologies} type="technology" />
+          <CarouselZigzag items={technologies} type="technology" isZigzagLeft={false} />
         </div>
       </section>
 
@@ -429,7 +422,7 @@ const About = () => {
             isZigzagLeft={true}
           />
           <div className="max-w-4xl mx-auto">
-            <Timeline items={timelineData} />
+            <Timeline items={timelineData} isZigzagLeft={true} />
           </div>
         </div>
       </section>
@@ -442,7 +435,7 @@ const About = () => {
             subtitle="Pendidikan vokasi menghadapi berbagai tantangan di era digital yang memerlukan strategi adaptif"
             isZigzagLeft={false}
           />
-          <div className="max-w-4xl mx-auto">
+          <div className={`max-w-4xl mx-auto ${false ? 'ml-0' : 'mr-0'}`}>
             {challenges.map((challenge, index) => (
               <AccordionItem
                 key={index}
@@ -450,6 +443,7 @@ const About = () => {
                 content={challenge.content}
                 isOpen={openAccordion === index}
                 onClick={() => setOpenAccordion(openAccordion === index ? -1 : index)}
+                isZigzagLeft={false}
               />
             ))}
           </div>
@@ -464,7 +458,7 @@ const About = () => {
             subtitle="Industri 4.0 membuka peluang besar bagi lulusan pendidikan vokasi"
             isZigzagLeft={true}
           />
-          <CarouselZigzag items={opportunities} type="opportunity" />
+          <CarouselZigzag items={opportunities} type="opportunity" isZigzagLeft={true} />
         </div>
       </section>
 
@@ -476,46 +470,22 @@ const About = () => {
             subtitle="Dirancang untuk menghasilkan lulusan yang kompeten dan siap menghadapi tantangan industri"
             isZigzagLeft={false}
           />
-          <CarouselZigzag items={curriculumFeatures} type="curriculum" />
+          <CarouselZigzag items={curriculumFeatures} type="curriculum" isZigzagLeft={false} />
         </div>
       </section>
 
-      {/* Video */}
-      <section className="py-20 bg-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Video Pembelajaran</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">Memahami lebih dalam tentang Industri 4.0 dan pendidikan vokasi</p>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <Card className="overflow-hidden">
-              <div className="aspect-video">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/kpW9JcWxKq0"
-                  title="Revolusi Industri 4.0"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
-                />
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
 
       {/* References */}
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Referensi</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">Sumber informasi dan bacaan lebih lanjut</p>
-          </div>
-          <div className="max-w-4xl mx-auto space-y-4">
+          <SectionHeader 
+            title="Referensi"
+            subtitle="Sumber informasi dan bacaan lebih lanjut"
+            isZigzagLeft={false}
+          />
+          <div className={`max-w-4xl mx-auto space-y-4 ${false ? 'ml-0' : 'mr-0'}`}>
             {references.map((ref, index) => (
-              <ReferenceCard key={index} {...ref} />
+              <ReferenceCard key={index} {...ref} isZigzagLeft={false} />
             ))}
           </div>
         </div>
