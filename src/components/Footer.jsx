@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
@@ -39,7 +40,7 @@ const Footer = () => {
               <li><a href="/" className="hover:text-purple-400 transition-colors">Beranda</a></li>
               <li><a href="/about" className="hover:text-purple-400 transition-colors">Tentang Vokasi</a></li>
               <li><a href="/interactive" className="hover:text-purple-400 transition-colors">Media Interaktif</a></li>
-              <li><a href="/contact" className="hover:text-purple-400 transition-colors">Kontak</a></li>
+              
             </ul>
           </div>
 
