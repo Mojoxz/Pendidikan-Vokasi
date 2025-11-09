@@ -9,11 +9,11 @@ export const formatScore = (score, total) => {
 };
 
 export const getGrade = (percentage) => {
-  if (percentage >= 90) return { letter: 'A', label: 'Sangat Baik', color: 'text-green-600' };
-  if (percentage >= 80) return { letter: 'B', label: 'Baik', color: 'text-blue-600' };
-  if (percentage >= 70) return { letter: 'C', label: 'Cukup', color: 'text-yellow-600' };
-  if (percentage >= 60) return { letter: 'D', label: 'Kurang', color: 'text-orange-600' };
-  return { letter: 'E', label: 'Perlu Belajar Lagi', color: 'text-red-600' };
+  if (percentage >= 90) return { letter: 'A', label: 'Sangat Baik', color: 'text-green-400' };
+  if (percentage >= 80) return { letter: 'B', label: 'Baik', color: 'text-blue-400' };
+  if (percentage >= 70) return { letter: 'C', label: 'Cukup', color: 'text-yellow-400' };
+  if (percentage >= 60) return { letter: 'D', label: 'Kurang', color: 'text-orange-400' };
+  return { letter: 'E', label: 'Perlu Belajar Lagi', color: 'text-red-400' };
 };
 
 export const getMotivationalMessage = (percentage) => {
