@@ -1,27 +1,34 @@
 import React, { useState } from 'react';
-import { Home, ChevronLeft, ChevronRight, CheckCircle, BookOpen, Lightbulb, X } from 'lucide-react';
-import MateriCompletionModal from './MateriCompletionModal';
+import { Home, ChevronLeft, ChevronRight, CheckCircle, BookOpen, Lightbulb } from 'lucide-react';
 
 const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
   const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
   const [completedTopics, setCompletedTopics] = useState([]);
   const [showTopicDetail, setShowTopicDetail] = useState(false);
-  const [showCompletionModal, setShowCompletionModal] = useState(false);
 
   const currentTopic = materi.topics[currentTopicIndex];
   const progress = ((completedTopics.length / materi.topics.length) * 100).toFixed(0);
+  const isLastTopic = currentTopicIndex === materi.topics.length - 1;
+  const allTopicsCompleted = completedTopics.length === materi.topics.length;
 
   const handleNextTopic = () => {
+    // Mark current topic as completed
     if (!completedTopics.includes(currentTopicIndex)) {
       setCompletedTopics([...completedTopics, currentTopicIndex]);
     }
 
     if (currentTopicIndex < materi.topics.length - 1) {
+      // Go to next topic
       setCurrentTopicIndex(currentTopicIndex + 1);
       setShowTopicDetail(false);
     } else {
-      // All topics completed
-      onComplete && onComplete(materi.id);
+      // All topics completed, call onComplete
+      if (!completedTopics.includes(currentTopicIndex)) {
+        // If current topic not yet marked, add it before completing
+        const finalCompleted = [...completedTopics, currentTopicIndex];
+        setCompletedTopics(finalCompleted);
+      }
+      onComplete(materi.id);
     }
   };
 
@@ -186,8 +193,8 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
                 )}
               </div>
 
-              {/* Key Points (shown when all topics in chapter completed) */}
-              {completedTopics.length === materi.topics.length && (
+              {/* Key Points (shown when all topics completed) */}
+              {allTopicsCompleted && (
                 <div className="mb-6 p-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border-2 border-green-500 rounded-xl animate-fadeIn">
                   <div className="flex items-center gap-2 mb-4">
                     <CheckCircle className="text-green-400" size={24} />
@@ -221,7 +228,7 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
                   <span>Topik Sebelumnya</span>
                 </button>
 
-                {currentTopicIndex < materi.topics.length - 1 ? (
+                {!isLastTopic ? (
                   <button
                     onClick={handleNextTopic}
                     className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
@@ -235,7 +242,7 @@ const MateriContent = ({ materi, onBackToMenu, onComplete }) => {
                     className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
                   >
                     <CheckCircle size={20} />
-                    <span>Selesai & Kembali</span>
+                    <span>Selesai Materi</span>
                   </button>
                 )}
               </div>

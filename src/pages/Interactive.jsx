@@ -5,8 +5,11 @@ import MaterialPage from '../components/MaterialPage';
 import QuizResults from '../components/QuizResults';
 import CareerCard from '../components/CareerCard';
 import CareerDetailModal from '../components/CareerDetailModal';
+import MateriLandingPage from '../components/MateriLandingPage';
 import MateriMenu from '../components/MateriMenu';
 import MateriContent from '../components/MateriContent';
+import MateriCompletionModal from '../components/MateriCompletionModal';
+import FinalConclusionModal from '../components/FinalConclusionModal';
 import { useQuiz } from '../hooks/useQuiz';
 import { useMateriProgress } from '../hooks/useMateriProgress';
 import { quizData } from '../data/quizData';
@@ -14,15 +17,16 @@ import { careerPaths } from '../data/careerData';
 import { materiData } from '../data/materiData';
 
 const Interactive = () => {
-  const [activeTab, setActiveTab] = useState('quiz');
+  const [activeTab, setActiveTab] = useState('materi');
   const [selectedCareer, setSelectedCareer] = useState(null);
   
   // Materi navigation state
   const [selectedMateriId, setSelectedMateriId] = useState(null);
-  const [materiView, setMateriView] = useState('menu'); // 'menu' or 'content'
+  const [materiView, setMateriView] = useState('landing'); // 'landing', 'menu', 'content', or 'completion'
+  const [showFinalConclusion, setShowFinalConclusion] = useState(false);
 
   // Materi progress hook
-  const { completedMateris, markAsCompleted, getTotalProgress } = useMateriProgress();
+  const { completedMateris, markAsCompleted, getTotalProgress, resetProgress } = useMateriProgress();
 
   // Quiz Logic
   const {
@@ -40,6 +44,10 @@ const Interactive = () => {
   } = useQuiz(quizData);
 
   // Handlers for Materi Navigation
+  const handleStartLearning = () => {
+    setMateriView('menu');
+  };
+
   const handleSelectMateri = (materiId) => {
     setSelectedMateriId(materiId);
     setMateriView('content');
@@ -52,7 +60,45 @@ const Interactive = () => {
 
   const handleMateriComplete = (materiId) => {
     markAsCompleted(materiId);
+    setMateriView('completion');
+  };
+
+  const handleNextMateri = () => {
+    const currentIndex = materiData.findIndex(m => m.id === selectedMateriId);
+    if (currentIndex < materiData.length - 1) {
+      const nextMateri = materiData[currentIndex + 1];
+      setSelectedMateriId(nextMateri.id);
+      setMateriView('content');
+    } else {
+      // Last materi, go back to menu
+      handleBackToMateriMenu();
+    }
+  };
+
+  const handleCompletionBackToMenu = () => {
+    const allCompleted = completedMateris.length >= materiData.length || 
+                        (completedMateris.length === materiData.length - 1 && 
+                         !completedMateris.includes(selectedMateriId));
+    
     setMateriView('menu');
+    setSelectedMateriId(null);
+    
+    // Check if all materis completed to show final conclusion
+    if (allCompleted) {
+      setTimeout(() => {
+        setShowFinalConclusion(true);
+      }, 500);
+    }
+  };
+
+  const handleCloseFinalConclusion = () => {
+    setShowFinalConclusion(false);
+  };
+
+  const handleRestartAllMateris = () => {
+    resetProgress();
+    setShowFinalConclusion(false);
+    setMateriView('landing');
     setSelectedMateriId(null);
   };
 
@@ -141,8 +187,32 @@ const Interactive = () => {
     );
   };
 
-  // Materi Section Component - Game-like Navigation
+  // Materi Section Component
   const MateriSection = () => {
+    // Show Landing Page
+    if (materiView === 'landing') {
+      return (
+        <MateriLandingPage
+          onStartLearning={handleStartLearning}
+        />
+      );
+    }
+
+    // Show Completion Modal
+    if (materiView === 'completion' && selectedMateri) {
+      const currentIndex = materiData.findIndex(m => m.id === selectedMateriId);
+      const hasNextMateri = currentIndex < materiData.length - 1;
+      
+      return (
+        <MateriCompletionModal
+          materi={selectedMateri}
+          onBackToMenu={handleCompletionBackToMenu}
+          onNextMateri={hasNextMateri ? handleNextMateri : null}
+        />
+      );
+    }
+
+    // Show Materi Content
     if (materiView === 'content' && selectedMateri) {
       return (
         <MateriContent
@@ -153,10 +223,12 @@ const Interactive = () => {
       );
     }
 
+    // Show Materi Menu (default)
     return (
       <MateriMenu
         onSelectMateri={handleSelectMateri}
         totalProgress={getTotalProgress(materiData.length)}
+        completedMateris={completedMateris}
       />
     );
   };
@@ -164,8 +236,8 @@ const Interactive = () => {
   return (
     <div className="min-h-screen bg-gray-900 pt-20 pb-20">
       <div className="container mx-auto px-4 py-12">
-        {/* Header - Only show when not in materi content view */}
-        {!(activeTab === 'materi' && materiView === 'content') && (
+        {/* Header - Only show when in menu view and not in materi landing/content */}
+        {materiView === 'menu' && (
           <>
             <div className="text-center mb-12 text-white animate-fadeInUp">
               <div className="inline-block mb-4 px-4 py-2 bg-purple-600/30 border-2 border-purple-400 rounded-full">
@@ -182,24 +254,7 @@ const Interactive = () => {
             {/* Tab Navigation */}
             <div className="flex flex-wrap justify-center gap-4 mb-12">
               <button
-                onClick={() => {
-                  setActiveTab('quiz');
-                  setMateriView('menu');
-                }}
-                className={`px-6 py-3 rounded-xl font-bold text-base md:text-lg transition-all ${
-                  activeTab === 'quiz'
-                    ? 'bg-purple-600 text-white shadow-xl scale-105 border-2 border-purple-400'
-                    : 'bg-gray-800 text-white hover:bg-gray-700 border-2 border-gray-600'
-                }`}
-              >
-                <Target className="inline mr-2" size={20} />
-                Kuis Edukatif
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab('materi');
-                  setMateriView('menu');
-                }}
+                onClick={() => setActiveTab('materi')}
                 className={`px-6 py-3 rounded-xl font-bold text-base md:text-lg transition-all ${
                   activeTab === 'materi'
                     ? 'bg-purple-600 text-white shadow-xl scale-105 border-2 border-purple-400'
@@ -210,10 +265,18 @@ const Interactive = () => {
                 Materi Pembelajaran
               </button>
               <button
-                onClick={() => {
-                  setActiveTab('career');
-                  setMateriView('menu');
-                }}
+                onClick={() => setActiveTab('quiz')}
+                className={`px-6 py-3 rounded-xl font-bold text-base md:text-lg transition-all ${
+                  activeTab === 'quiz'
+                    ? 'bg-purple-600 text-white shadow-xl scale-105 border-2 border-purple-400'
+                    : 'bg-gray-800 text-white hover:bg-gray-700 border-2 border-gray-600'
+                }`}
+              >
+                <Target className="inline mr-2" size={20} />
+                Kuis Edukatif
+              </button>
+              <button
+                onClick={() => setActiveTab('career')}
                 className={`px-6 py-3 rounded-xl font-bold text-base md:text-lg transition-all ${
                   activeTab === 'career'
                     ? 'bg-purple-600 text-white shadow-xl scale-105 border-2 border-purple-400'
@@ -228,10 +291,18 @@ const Interactive = () => {
         )}
 
         {/* Content */}
-        {activeTab === 'quiz' && <QuizSection />}
         {activeTab === 'materi' && <MateriSection />}
+        {activeTab === 'quiz' && <QuizSection />}
         {activeTab === 'career' && <CareerSection />}
       </div>
+
+      {/* Final Conclusion Modal */}
+      {showFinalConclusion && (
+        <FinalConclusionModal
+          onClose={handleCloseFinalConclusion}
+          onRestart={handleRestartAllMateris}
+        />
+      )}
 
       {/* Custom Animations */}
       <style>{`

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Play, BookOpen, Trophy, ArrowRight, Sparkles } from 'lucide-react';
+import { Play, BookOpen, Trophy, ArrowRight, Sparkles, CheckCircle } from 'lucide-react';
 
-const MateriMenu = ({ onSelectMateri, totalProgress }) => {
+const MateriMenu = ({ onSelectMateri, totalProgress, completedMateris = [] }) => {
   const menuItems = [
     {
       id: 1,
@@ -77,6 +77,8 @@ const MateriMenu = ({ onSelectMateri, totalProgress }) => {
     }
   ];
 
+  const isCompleted = (itemId) => completedMateris.includes(itemId);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 relative overflow-hidden">
       {/* Animated Background */}
@@ -113,60 +115,99 @@ const MateriMenu = ({ onSelectMateri, totalProgress }) => {
               <Trophy className="text-yellow-400" size={20} />
               <span className="text-white font-bold">{totalProgress || 0}% Selesai</span>
             </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-xl backdrop-blur-sm">
+              <CheckCircle className="text-green-400" size={20} />
+              <span className="text-white font-bold">{completedMateris.length}/{menuItems.length} Materi</span>
+            </div>
           </div>
         </div>
 
         {/* Menu Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {menuItems.map((item, index) => (
-            <div
-              key={item.id}
-              onClick={() => onSelectMateri(item.id)}
-              className="group cursor-pointer animate-fadeInUp"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="relative bg-gray-800/50 border-2 border-gray-700 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:border-purple-400 hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-105 hover:-translate-y-2">
-                {/* Icon Circle */}
-                <div className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-4xl transform transition-transform group-hover:rotate-12 group-hover:scale-110`}>
-                  {item.icon}
-                </div>
+          {menuItems.map((item, index) => {
+            const completed = isCompleted(item.id);
+            
+            return (
+              <div
+                key={item.id}
+                onClick={() => onSelectMateri(item.id)}
+                className="group cursor-pointer animate-fadeInUp relative"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className={`relative bg-gray-800/50 border-2 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:-translate-y-2 ${
+                  completed 
+                    ? 'border-green-500 shadow-green-500/20' 
+                    : 'border-gray-700 hover:border-purple-400 hover:shadow-purple-500/20'
+                }`}>
+                  
+                  {/* Completed Badge */}
+                  {completed && (
+                    <div className="absolute -top-3 -right-3 bg-green-500 text-white rounded-full p-2 shadow-lg z-10 animate-bounce-slow">
+                      <CheckCircle size={24} />
+                    </div>
+                  )}
 
-                {/* Title */}
-                <h3 className="text-lg font-bold text-white mb-2 text-center group-hover:text-purple-300 transition-colors">
-                  {item.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm text-gray-400 mb-4 text-center line-clamp-2">
-                  {item.description}
-                </p>
-
-                {/* Meta Info */}
-                <div className="flex items-center justify-between text-xs mb-3">
-                  <span className={`px-2 py-1 rounded-full font-bold ${
-                    item.difficulty === 'Pemula' 
-                      ? 'bg-green-900/50 text-green-300'
-                      : item.difficulty === 'Menengah'
-                      ? 'bg-yellow-900/50 text-yellow-300'
-                      : 'bg-red-900/50 text-red-300'
+                  {/* Icon Circle */}
+                  <div className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-4xl transform transition-transform group-hover:rotate-12 group-hover:scale-110 ${
+                    completed ? 'opacity-80' : ''
                   }`}>
-                    {item.difficulty}
-                  </span>
-                  <span className="text-gray-400">⏱️ {item.duration}</span>
+                    {item.icon}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className={`text-lg font-bold mb-2 text-center transition-colors ${
+                    completed 
+                      ? 'text-green-300' 
+                      : 'text-white group-hover:text-purple-300'
+                  }`}>
+                    {item.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-sm text-gray-400 mb-4 text-center line-clamp-2">
+                    {item.description}
+                  </p>
+
+                  {/* Meta Info */}
+                  <div className="flex items-center justify-between text-xs mb-3">
+                    <span className={`px-2 py-1 rounded-full font-bold ${
+                      item.difficulty === 'Pemula' 
+                        ? 'bg-green-900/50 text-green-300'
+                        : item.difficulty === 'Menengah'
+                        ? 'bg-yellow-900/50 text-yellow-300'
+                        : 'bg-red-900/50 text-red-300'
+                    }`}>
+                      {item.difficulty}
+                    </span>
+                    <span className="text-gray-400">⏱️ {item.duration}</span>
+                  </div>
+
+                  {/* Play Button */}
+                  <button className={`w-full font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 group-hover:shadow-lg ${
+                    completed
+                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white'
+                      : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
+                  }`}>
+                    {completed ? (
+                      <>
+                        <CheckCircle size={18} />
+                        <span>Pelajari Lagi</span>
+                      </>
+                    ) : (
+                      <>
+                        <Play size={18} fill="white" />
+                        <span>Mulai Belajar</span>
+                      </>
+                    )}
+                    <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
+                  </button>
+
+                  {/* Hover Glow Effect */}
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity -z-10 blur-xl`}></div>
                 </div>
-
-                {/* Play Button */}
-                <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 group-hover:shadow-lg">
-                  <Play size={18} fill="white" />
-                  <span>Mulai Belajar</span>
-                  <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                {/* Hover Glow Effect */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity -z-10 blur-xl`}></div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom Tips */}
@@ -179,15 +220,15 @@ const MateriMenu = ({ onSelectMateri, totalProgress }) => {
                 <div className="grid md:grid-cols-2 gap-3 text-sm text-gray-200">
                   <div className="flex items-start gap-2">
                     <span className="text-purple-400 text-lg">→</span>
-                    <span>Klik pada topik untuk melihat detail mendalam</span>
+                    <span>Klik pada materi untuk memulai pembelajaran</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-purple-400 text-lg">→</span>
-                    <span>Gunakan tombol navigasi untuk kembali ke menu</span>
+                    <span>Ikuti urutan topik untuk pemahaman maksimal</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-purple-400 text-lg">→</span>
-                    <span>Selesaikan semua topik untuk pemahaman maksimal</span>
+                    <span>Selesaikan semua topik di setiap materi</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-purple-400 text-lg">→</span>
@@ -233,6 +274,11 @@ const MateriMenu = ({ onSelectMateri, totalProgress }) => {
           }
         }
 
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
         .animate-fadeInDown {
           animation: fadeInDown 0.8s ease-out;
         }
@@ -245,6 +291,10 @@ const MateriMenu = ({ onSelectMateri, totalProgress }) => {
         .animate-gradient {
           background-size: 200% 200%;
           animation: gradient 3s ease infinite;
+        }
+
+        .animate-bounce-slow {
+          animation: bounce-slow 2s ease-in-out infinite;
         }
 
         .line-clamp-2 {
