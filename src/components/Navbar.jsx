@@ -35,8 +35,8 @@ const Navbar = () => {
               </div>
             </div>
             <div className="hidden md:block">
-              <h1 className="text-lg font-bold text-white">Vokasi 4.0</h1>
-              <p className="text-xs text-gray-400">Pendidikan Masa Depan</p>
+              <h1 className="text-lg font-bold text-white">Pendidikan Vokasi Era 4.0</h1>
+              <p className="text-xs text-gray-400">Firmandhani Setyo Triatmojo</p>
             </div>
           </Link>
           

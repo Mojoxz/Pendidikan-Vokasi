@@ -49,15 +49,15 @@ const Footer = () => {
             <div className="space-y-3 text-sm text-gray-400">
               <div className="flex items-start gap-2">
                 <Mail size={18} className="text-purple-400 mt-1" />
-                <span>info@vokasi40.edu</span>
+                <span>firmandhani.23029@mhs.unesa.ac.id</span>
               </div>
               <div className="flex items-start gap-2">
                 <Phone size={18} className="text-purple-400 mt-1" />
-                <span>+62 812-3456-7890</span>
+                <span>085784777172</span>
               </div>
               <div className="flex items-start gap-2">
                 <MapPin size={18} className="text-purple-400 mt-1" />
-                <span>Jakarta, Indonesia</span>
+                <span>Jl. Ketintang Wiyata Gedung A10, Ketintang, Gayungan, Surabaya, East Java 60231</span>
               </div>
             </div>
           </div>
