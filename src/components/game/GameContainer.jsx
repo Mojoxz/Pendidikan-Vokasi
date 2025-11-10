@@ -1,6 +1,6 @@
 import React from 'react';
 import { gameLevels } from '../../data/gameData';
-import GameHUD from './GameHUD';
+import GameHUD from './GameHUD.JSX';
 import MultipleChoiceTask from './tasks/MultipleChoiceTask';
 import SortingTask from './tasks/SortingTask';
 import DragMatchTask from './tasks/DragMatchTask';
