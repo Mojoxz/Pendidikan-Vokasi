@@ -124,41 +124,47 @@ const Game = () => {
     case 'levelComplete':
       return (
         <div className="min-h-screen bg-gray-900 pt-20 pb-20">
-          <LevelComplete
-            levelTitle={feedbackData?.levelTitle || ''}
-            finalScore={feedbackData?.finalScore || gameState.score}
-            stars={feedbackData?.stars || 0}
-            timeBonus={feedbackData?.timeBonus || 0}
-            energyBonus={feedbackData?.energyBonus || 0}
-            perfectBonus={feedbackData?.perfectBonus || 0}
-            isPerfect={feedbackData?.isPerfect || false}
-            onNextLevel={nextLevel}
-            isLastLevel={gameState.currentLevel >= gameLevels.length}
-          />
+          <div className="container mx-auto px-4 py-8">
+            <LevelComplete
+              levelTitle={feedbackData?.levelTitle || ''}
+              finalScore={feedbackData?.finalScore || gameState.score}
+              stars={feedbackData?.stars || 0}
+              timeBonus={feedbackData?.timeBonus || 0}
+              energyBonus={feedbackData?.energyBonus || 0}
+              perfectBonus={feedbackData?.perfectBonus || 0}
+              isPerfect={feedbackData?.isPerfect || false}
+              onNextLevel={nextLevel}
+              isLastLevel={gameState.currentLevel >= gameLevels.length}
+            />
+          </div>
         </div>
       );
 
     case 'gameOver':
       return (
-        <div className="pt-20">
-          <GameOver
-            score={gameState.score}
-            level={gameState.currentLevel}
-            onRestart={restartLevel}
-            onQuit={quitGame}
-          />
+        <div className="min-h-screen bg-gray-900 pt-20 pb-20">
+          <div className="container mx-auto px-4 py-8">
+            <GameOver
+              score={gameState.score}
+              level={gameState.currentLevel}
+              onRestart={restartLevel}
+              onQuit={quitGame}
+            />
+          </div>
         </div>
       );
 
     case 'victory':
       return (
-        <div className="pt-20">
-          <Victory
-            finalScore={gameState.score}
-            completedLevels={gameState.completedLevels}
-            onRestart={startGame}
-            onQuit={quitGame}
-          />
+        <div className="min-h-screen bg-gray-900 pt-20 pb-20">
+          <div className="container mx-auto px-4 py-8">
+            <Victory
+              finalScore={gameState.score}
+              completedLevels={gameState.completedLevels}
+              onRestart={startGame}
+              onQuit={quitGame}
+            />
+          </div>
         </div>
       );
 

@@ -5,8 +5,8 @@ import { Play, RotateCcw, X, Home } from 'lucide-react';
 
 export const PauseModal = ({ onResume, onRestart, onQuit }) => {
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-      <div className="bg-gray-800 border-2 border-purple-500 rounded-2xl p-8 max-w-md w-full animate-scaleIn">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+      <div className="bg-gray-800 border-2 border-purple-500 rounded-2xl p-8 max-w-md w-full shadow-2xl animate-scaleIn">
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">⏸️</div>
           <h2 className="text-3xl font-bold text-white mb-2">Game Paused</h2>
@@ -16,7 +16,7 @@ export const PauseModal = ({ onResume, onRestart, onQuit }) => {
         <div className="space-y-3">
           <button
             onClick={onResume}
-            className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 flex items-center justify-center gap-2 border-2 border-green-500"
+            className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 flex items-center justify-center gap-2 border-2 border-green-500 shadow-lg"
           >
             <Play size={20} />
             Lanjutkan
@@ -24,7 +24,7 @@ export const PauseModal = ({ onResume, onRestart, onQuit }) => {
 
           <button
             onClick={onRestart}
-            className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 border-2 border-gray-600"
+            className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 border-2 border-gray-600 shadow-lg"
           >
             <RotateCcw size={20} />
             Restart Level
@@ -32,7 +32,7 @@ export const PauseModal = ({ onResume, onRestart, onQuit }) => {
 
           <button
             onClick={onQuit}
-            className="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 border-2 border-red-500"
+            className="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 border-2 border-red-500 shadow-lg"
           >
             <Home size={20} />
             Kembali ke Menu
@@ -41,28 +41,19 @@ export const PauseModal = ({ onResume, onRestart, onQuit }) => {
       </div>
 
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
         @keyframes scaleIn {
           from {
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.8) translateY(-20px);
           }
           to {
             opacity: 1;
-            transform: scale(1);
+            transform: scale(1) translateY(0);
           }
         }
 
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-
         .animate-scaleIn {
-          animation: scaleIn 0.4s ease-out;
+          animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
       `}</style>
     </div>

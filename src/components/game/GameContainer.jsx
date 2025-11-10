@@ -51,7 +51,7 @@ const GameContainer = ({
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${currentLevel.bgGradient} relative`}>
-      {/* HUD */}
+      {/* HUD - Fixed at top */}
       <GameHUD
         score={gameState.score}
         energy={gameState.energy}
@@ -63,8 +63,8 @@ const GameContainer = ({
         onQuit={onQuit}
       />
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 md:py-8">
+
+      <div className="container mx-auto px-4 py-6 md:py-8 pt-24">
         <div className="max-w-6xl mx-auto">
           {/* Level Info */}
           <div className="text-center mb-8 animate-fadeInUp">
@@ -118,18 +118,16 @@ const GameContainer = ({
         />
       )}
 
-      {/* Pause Modal - Rendered as a portal to ensure proper stacking */}
+      {/* Pause Modal */}
       {showPauseModal && (
-        <div className="fixed inset-0 z-[9999]">
-          <PauseModal
-            onResume={onResume}
-            onRestart={onRestart}
-            onQuit={onQuit}
-          />
-        </div>
+        <PauseModal
+          onResume={onResume}
+          onRestart={onRestart}
+          onQuit={onQuit}
+        />
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
